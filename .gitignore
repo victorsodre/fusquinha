@@ -8,4 +8,3 @@ output/
 .env.*
 !.env.example
 assets-source/
-public/models/fusca.glb

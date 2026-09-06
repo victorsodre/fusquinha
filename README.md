@@ -2,6 +2,8 @@
 
 Um Fusca amarelinho para explorar em 3D: órbita, zoom, seleção de conjuntos e peças, isolamento, malha, captura de imagem e desmontagem progressiva de 515 elementos.
 
+**[Abrir o Fusquinha online](https://victorsodre.github.io/fusquinha/)**
+
 Idealização e direção de **Victor** — [@ovictor no X](https://x.com/ovictor) e [@ovictorlab no YouTube](https://www.youtube.com/@ovictorlab).
 
 Direção visual de garagem brasileira: azulejos verdes, cobogós, parede de cal, piso de pedra e amarelo solar. A cena combina luz de estúdio HDRI, reflexos PBR e sombras de contato.
@@ -21,9 +23,22 @@ npm run dev -- --port 3016
 
 Abra http://127.0.0.1:3016.
 
-Este repositório público inclui código, sons, iluminação e cenário. **O modelo 3D não acompanha o repositório**, pois sua licença restringe a redistribuição do arquivo extraível. Para visualizar o carro, obtenha o asset pela fonte oficial e execute o [pipeline do modelo](#pipeline-do-modelo), que gera `public/models/fusca.glb` para uso local. Sem esse arquivo, a interface informa que o modelo não carregou.
+O repositório e a publicação incluem código, GLB, sons, iluminação e cenário, conforme decisão expressa de Victor. Os assets de terceiros mantêm suas próprias licenças; a presença no repositório não os torna domínio público. Veja [origem e condições dos assets](docs/ASSETS.md).
 
-O GLB fica ignorado pelo Git. A publicação de uma versão interativa com esse modelo depende de permissão específica de distribuição ou da substituição do asset. Veja [origem e condições dos assets](docs/ASSETS.md).
+## Publicação online
+
+GitHub Pages serve o build da branch `gh-pages`. A branch `main` contém os fontes. Os caminhos relativos permitem carregar modelo, sons e iluminação em `/fusquinha/`.
+
+Após revisar e fazer commit das mudanças nos fontes:
+
+```sh
+npm test
+npm run build
+python3 scripts/prepare-pages.py
+git push origin main gh-pages
+```
+
+O script prepara somente a branch de publicação, preservando o checkout atual. O push de `gh-pages` atualiza o site. `release.json` identifica o commit dos fontes utilizado no build.
 
 ## Controles
 

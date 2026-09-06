@@ -92,7 +92,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     scene.environment = environment.texture;
     let studioEnvironment: THREE.WebGLRenderTarget | null = null;
     renderer.domElement.dataset.lighting = 'loading';
-    new RGBELoader().load('/lighting/studio_small_09_2k.hdr', texture => {
+    new RGBELoader().load(`${import.meta.env.BASE_URL}lighting/studio_small_09_2k.hdr`, texture => {
       if (disposed) { texture.dispose(); return; }
       studioEnvironment = pmrem.fromEquirectangular(texture);
       scene.environment = studioEnvironment.texture;
@@ -190,7 +190,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     }
 
     const loader = new GLTFLoader();
-    loader.load('/models/fusca.glb', gltf => {
+    loader.load(`${import.meta.env.BASE_URL}models/fusca.glb`, gltf => {
       if (disposed) { disposeObject(gltf.scene); return; }
       gltf.scene.updateMatrixWorld(true);
       for (const data of props.manifest.objects) {

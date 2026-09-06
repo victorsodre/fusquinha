@@ -13,7 +13,7 @@
 
 O asset **não é domínio público nem CAD de fabricação**. O download autorizado foi feito pela API pública do BlenderKit, sem credencial, com um UUID de cena e a variante de texturas de 1K.
 
-O repositório público contém o código e uma imagem da experiência, sem o GLB. Os [termos de uso, artigo 5, itens 4 e 8](https://www.blendkit.com/terms-and-conditions-2026/), restringem a redistribuição do produto separado e sua entrega em formato aberto extraível. O GLB de um navegador é extraível, portanto **publicar o aplicativo com esse GLB ou incluir o asset em um repositório público exige resolver a permissão de distribuição com o autor ou substituir por um asset com licença adequada**. O arquivo local está preservado e ignorado pelo Git; o histórico publicado não o inclui. Os créditos não substituem a licença.
+Os [termos de uso, artigo 5, itens 4 e 8](https://www.blendkit.com/terms-and-conditions-2026/), restringem a redistribuição do produto separado e sua entrega em formato aberto extraível. O GLB servido pelo navegador é extraível. Informado dessas condições, Victor solicitou expressamente incluir o GLB no repositório e publicar a experiência completa. Essa decisão não constitui autorização do titular nem altera a licença original. Os créditos de Rodrigo Marini permanecem na interface e nesta documentação.
 
 Mudanças locais: pintura amarelo solar; quatro calotas cromadas e duas placas cenográficas FUS-1965 de autoria deste projeto, com a identificação ES · VITÓRIA desenhada pela aplicação; shaders PBR portáveis; separação das 511 ilhas originais; organização em nove conjuntos; nomes descritivos em português. Total: **515 elementos**. As calotas e placas são identificadas como `Fusquinha` no manifesto.
 

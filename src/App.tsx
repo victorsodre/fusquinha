@@ -47,7 +47,7 @@ export default function App() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch('/models/fusca-manifest.json', { signal: controller.signal })
+    fetch(`${import.meta.env.BASE_URL}models/fusca-manifest.json`, { signal: controller.signal })
       .then(r => { if (!r.ok) throw new Error('Não foi possível carregar o catálogo.'); return r.json(); })
       .then(data => { assertManifest(data); setManifest(data); })
       .catch(e => { if (e.name !== 'AbortError') setError('Não foi possível carregar o catálogo. Recarregue a página.'); });
@@ -210,8 +210,8 @@ export default function App() {
     <footer className="studio-footer"><span>FEITO NO BRASIL. CHEIO DE HISTÓRIAS.</span><button className="project-credit" aria-label="Projeto de Victor — abrir créditos" onClick={() => about.current?.showModal()}><span>projeto</span><span className="social-credit"><XLogo />@ovictor</span><span className="social-credit"><Youtube size={14} aria-hidden="true" />@ovictorlab</span><ArrowUpRight size={11} /></button></footer>
     {notice && <div className="notice" role="status">{notice}</div>}
     <audio ref={engineAudio} loop muted={muted} preload="none" onPlaying={() => setEngineOn(true)} onPause={() => setEngineOn(false)} onError={() => { setEngineOn(false); setNotice('Não foi possível carregar o som do motor.'); }}>
-      <source src="/audio/fusquinha-engine.ogg" type="audio/ogg" />
-      <source src="/audio/fusquinha-engine.mp3" type="audio/mpeg" />
+      <source src={`${import.meta.env.BASE_URL}audio/fusquinha-engine.ogg`} type="audio/ogg" />
+      <source src={`${import.meta.env.BASE_URL}audio/fusquinha-engine.mp3`} type="audio/mpeg" />
     </audio>
 
     <dialog ref={about} className="about-dialog" onClick={event => { if (event.target === event.currentTarget) about.current?.close(); }}>

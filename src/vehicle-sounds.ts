@@ -11,7 +11,7 @@ export function createVehicleSounds(onError: () => void) {
   let doorTimer: ReturnType<typeof setTimeout> | undefined;
   let disposed = false;
   for (const [name, volume] of Object.entries(volumes)) {
-    const audio = new Audio(`/audio/sfx/${name}.wav`);
+    const audio = new Audio(`${import.meta.env.BASE_URL}audio/sfx/${name}.wav`);
     audio.preload = 'auto'; audio.volume = volume; audio.dataset.sfx = name;
     audio.loop = name === 'hazards' || name === 'wipers';
     audio.hidden = true; document.body.appendChild(audio);
