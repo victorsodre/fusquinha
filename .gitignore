@@ -1,0 +1,11 @@
+node_modules/
+dist/
+output/
+.playwright-cli/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+assets-source/
+public/models/fusca.glb

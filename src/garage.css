@@ -1,0 +1,38 @@
+/* A sunlit Brazilian garage: limewashed wall, ceramic frieze and stone courtyard. */
+.studio { --garage-horizon: 49%; background: #eee9dc; isolation: isolate; }
+.garage-backdrop { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.garage-wall { position: absolute; inset: 0 0 40%; background: linear-gradient(110deg, #eae9d9 0%, #f8f1de 45%, #e1e9d9 100%); }
+.garage-tiles { position: absolute; inset: auto 0 calc(100% - var(--garage-horizon)); height: 132px; background: #cfddc9 url('/scenery/azulejo.svg') repeat; background-size: 66px 66px; border-top: 5px solid #a8bfa5; border-bottom: 5px solid #8da88a; box-shadow: 0 -2px 0 #e9ebd9, 0 5px 12px #566b4120; transition: opacity .3s; }
+.garage-courtyard { position: absolute; inset: var(--garage-horizon) 0 0; background: radial-gradient(ellipse at 66% 22%, #ebe8d3a0, transparent 62%), linear-gradient(168deg, #d5d7bf, #e7dfc7 68%, #d4d8bf); }
+.garage-courtyard::before { content: ''; position: absolute; inset: 0; opacity: .12; background: repeating-linear-gradient(0deg, transparent 0 94px, #7c8e6a 94px 95px), repeating-linear-gradient(90deg, transparent 0 94px, #7c8e6a 94px 95px); transform: perspective(500px) rotateX(52deg) scale(1.7); transform-origin: center top; mask-image: linear-gradient(transparent, #000 75%); }
+.garage-cobogo { position: absolute; top: 15%; right: -22px; width: clamp(150px, 15vw, 230px); height: 194px; background: url('/scenery/cobogo.svg') repeat; background-size: 64px; border: 9px solid #d6ddc6; border-right: 0; box-shadow: -5px 7px 15px #51634415; transform: skewY(-4deg); opacity: .78; }
+.garage-window-shadow { position: absolute; width: 350px; height: 210px; right: 10%; top: 18%; background: url('/scenery/cobogo.svg') repeat; background-size: 70px; transform: skew(-30deg, -5deg) rotate(-10deg); filter: blur(4px); opacity: .12; mask-image: linear-gradient(90deg, transparent, #000 75%); }
+.garage-plaster { position: absolute; inset: 0; background: url('/scenery/plaster.svg') repeat; opacity: .21; mix-blend-mode: multiply; }
+.garage-backdrop::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #eeeaddf5 0, #eeeaddf2 240px, #eeeadd00 480px, #eeeadd00 calc(100% - 70px), #edf0df66 100%); }
+.studio::after { display: none; }
+.studio-header { background: linear-gradient(180deg, #f1eddece, #f1edde00); }
+.stage { z-index: 1; }
+.studio-footer { z-index: 3; color: #758364; }
+.studio-footer .project-credit { color: #5e7756; }
+.detail-panel { background: #f4efdfeb; border-radius: 4px; padding: 16px 15px 18px 20px; }
+.is-inspecting .garage-tiles { opacity: .25; }
+.is-inspecting .garage-cobogo, .is-inspecting .garage-window-shadow { opacity: .15; }
+.is-inspecting .garage-courtyard { opacity: .5; }
+.scene-status { background: #eeeadd; }
+@media (max-width: 1100px) {
+  .garage-backdrop::after { background: linear-gradient(90deg, #eeeaddf5 0, #eeeaddf2 196px, #eeeadd00 380px, #edf0df11 100%); }
+}
+@media (max-width: 760px) {
+  .studio { --garage-horizon: 47%; }
+  .garage-tiles { height: 100px; background-size: 50px 50px; border-top-width: 4px; border-bottom-width: 4px; }
+  .garage-cobogo { top: 12%; right: -43px; width: 130px; height: 168px; background-size: 48px; opacity: .4; }
+  .garage-window-shadow { width: 180px; height: 160px; right: 8%; top: 18%; opacity: .08; }
+  .garage-backdrop::after { background: linear-gradient(180deg, #f1eddfbf 0, #f1eddf80 170px, transparent 310px, transparent 65%, #e9e3d288); }
+  .garage-courtyard::before { opacity: .06; }
+  .detail-panel { padding: 16px 19px 18px; background: #f6f0dff7; }
+}
+@media (max-height: 500px) and (min-width: 761px) {
+  .garage-cobogo { top: 12%; height: 116px; background-size: 44px; }
+  .garage-tiles { height: 84px; background-size: 42px; }
+  .detail-panel { padding-top: 8px; }
+}
