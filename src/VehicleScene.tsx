@@ -50,7 +50,17 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     capture: () => actions.current?.capture(),
   }), []);
 
-  useEffect(() => { actions.current?.update(); }, [props.selected, props.focused, props.explosion, props.isolated, props.autoRotate, props.labels, props.wireframe, props.engineOn, props.vehicleSwitches, props.locale]);
+  useEffect(() => { actions.current?.update(); }, [props.selected, props.focused, props.explosion, props.isolated, props.autoRotate, props.labels, props.wireframe, props.engineOn, props.vehicleSwitches]);
+
+  useEffect(() => {
+    const container = host.current;
+    if (!container) return;
+    const labelNames = localGroups(props.locale);
+    for (const [index, label] of [...container.querySelectorAll<HTMLButtonElement>('.scene-label')].entries()) {
+      label.textContent = labelNames[index]?.name ?? '';
+    }
+    container.querySelector('canvas')?.setAttribute('aria-label', translate(props.locale, 'Beetle in 3D. Drag to turn and use the mouse wheel to zoom.', 'Fusca em 3D. Arraste para girar e use a roda do mouse para aproximar.'));
+  }, [props.locale]);
 
   useEffect(() => {
     const container = host.current!;

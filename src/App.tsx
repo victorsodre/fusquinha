@@ -21,6 +21,8 @@ export default function App() {
   const [locale, setLocale] = useState<Locale>(() => {
     try { return localStorage.getItem('fusquinha.locale') === 'pt-BR' ? 'pt-BR' : 'en'; } catch { return 'en'; }
   });
+  const localeRef = useRef(locale);
+  localeRef.current = locale;
   const [manifest, setManifest] = useState<Manifest | null>(null);
   const [error, setError] = useState('');
   const [ready, setReady] = useState(false);
@@ -85,9 +87,9 @@ export default function App() {
   useEffect(() => {
     const audio = engineAudio.current!;
     audio.volume = .4;
-    soundEffects.current = createVehicleSounds(() => setNotice(translate(locale, 'One sound effect could not play. Try the control again.', 'Um dos efeitos não pôde tocar. Tente acionar o comando novamente.')));
+    soundEffects.current = createVehicleSounds(() => setNotice(translate(localeRef.current, 'One sound effect could not play. Try the control again.', 'Um dos efeitos não pôde tocar. Tente acionar o comando novamente.')));
     return () => { audio.pause(); soundEffects.current?.dispose(); soundEffects.current = null; };
-  }, [locale]);
+  }, []);
 
   useEffect(() => { soundEffects.current?.mute(muted); }, [muted]);
   useEffect(() => {
@@ -165,7 +167,7 @@ export default function App() {
     </aside>
 
     <section className="stage" aria-label={t('Beetle 3D studio', 'Estúdio 3D do Fusca')}>
-      {manifest && <Suspense fallback={<div className="scene-status" role="status"><span className="loading-wheel" />{t('Preparing the yellow Beetle…', 'Preparando o fusquinha…')}</div>}><VehicleScene key={locale} ref={scene} manifest={manifest} locale={locale} selected={selected} focused={focused} explosion={explosion} isolated={isolated} autoRotate={autoRotate} labels={labels} wireframe={wireframe} engineOn={engineOn} vehicleSwitches={vehicleSwitches} audioClock={audioClock} onSelect={select} onReady={() => setReady(true)} /></Suspense>}
+      {manifest && <Suspense fallback={<div className="scene-status" role="status"><span className="loading-wheel" />{t('Preparing the yellow Beetle…', 'Preparando o fusquinha…')}</div>}><VehicleScene ref={scene} manifest={manifest} locale={locale} selected={selected} focused={focused} explosion={explosion} isolated={isolated} autoRotate={autoRotate} labels={labels} wireframe={wireframe} engineOn={engineOn} vehicleSwitches={vehicleSwitches} audioClock={audioClock} onSelect={select} onReady={() => setReady(true)} /></Suspense>}
       {error && <div className="scene-status is-error" role="alert">{error}<button onClick={() => location.reload()}>{t('Try again', 'Tentar novamente')}</button></div>}
       <div className="stage-caption"><span className="caption-line" />{isolated ? t('A CLOSER LOOK', 'OLHANDO DE PERTINHO') : explosion === 100 ? t('EVERY PART IN ITS PLACE', 'CADA PEÇA NO SEU LUGAR') : explosion ? t('EXPLODED VIEW', 'VISTA EXPLODIDA') : t('IN OUR GARAGE · 360°', 'NA NOSSA GARAGEM · 360°')}</div>
       <div className={`ignition-controls ${engineOn ? 'is-running' : ''}`}>
