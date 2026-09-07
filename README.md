@@ -1,35 +1,53 @@
 # Fusquinha
 
-Um Fusca amarelinho para explorar em 3D: órbita, zoom, seleção de conjuntos e peças, isolamento, malha, captura de imagem e desmontagem progressiva de 515 elementos.
+An interactive 3D yellow Volkswagen Beetle viewer. Explore the vehicle through orbit and zoom controls, assembly and part selection, isolation, wireframe, PNG capture, and a progressive disassembly of 515 elements.
 
-**[Abrir o Fusquinha online](https://victorsodre.github.io/fusquinha/)**
+**[Open Fusquinha online](https://victorsodre.github.io/fusquinha/)**
 
-Idealização e direção de **Victor** — [@ovictor no X](https://x.com/ovictor) e [@ovictorlab no YouTube](https://www.youtube.com/@ovictorlab).
+Concept and direction by **Victor** — [@ovictor on X](https://x.com/ovictor) and [@ovictorlab on YouTube](https://www.youtube.com/@ovictorlab).
 
-Direção visual de garagem brasileira: azulejos verdes, cobogós, parede de cal, piso de pedra e amarelo solar. A cena combina luz de estúdio HDRI, reflexos PBR e sombras de contato.
+The interface defaults to English and includes a Brazilian Portuguese option. The scene is an independent React, TypeScript, and Three.js implementation inspired by [Ashe’s Model X Studio](https://github.com/ashemag/model-x-studio). No code or assets from that project were copied.
 
-Modelo original por **Rodrigo Marini**, reinterpretado com pintura amarela e calotas cromadas. Experiência inspirada no [Model X Studio de Ashe](https://github.com/ashemag/model-x-studio), com implementação própria em React, TypeScript e Three.js.
+![Yellow Fusquinha in a Brazilian garage](docs/images/fusquinha.png)
 
-![Fusquinha amarelinho em uma garagem com azulejos verdes e cobogós](docs/images/fusquinha.png)
+## Run locally
 
-## Rodar localmente
-
-Node.js 22.13+ e npm.
+Node.js 22.13+ and npm are required.
 
 ```sh
 npm ci
 npm run dev -- --port 3016
 ```
 
-Abra http://127.0.0.1:3016.
+Open http://127.0.0.1:3016.
 
-O repositório e a publicação incluem código, GLB, sons, iluminação e cenário, conforme decisão expressa de Victor. Os assets de terceiros mantêm suas próprias licenças; a presença no repositório não os torna domínio público. Veja [origem e condições dos assets](docs/ASSETS.md).
+The repository and deployment include code, GLB, sound, lighting, and scenery by Victor’s express decision. Third-party assets keep their own licenses; inclusion here does not place them in the public domain. Read the [asset provenance and terms](docs/ASSETS.md).
 
-## Publicação online
+## Controls
 
-GitHub Pages serve o build da branch `gh-pages`. A branch `main` contém os fontes. Os caminhos relativos permitem carregar modelo, sons e iluminação em `/fusquinha/`.
+- Drag to rotate; use the mouse wheel or pinch to zoom.
+- Start engine plays the supplied engine recording in a loop and adds subtle body vibration. Mute silences engine and effects without stopping the vehicle state.
+- Headlights, driver door, hazard lights, and wipers have synchronized visual and audio behavior.
+- Select an assembly from the catalog or click a part on the vehicle. Use the part picker and **Isolate** for closer inspection.
+- The **Disassemble** control moves from the assembled vehicle to separated assemblies and then to a complete 100% layout.
+- `E` toggles assembly/disassembly, `R` resets the camera, `/` opens search, and `Esc` closes panels and exits isolation.
 
-Após revisar e fazer commit das mudanças nos fontes:
+The engine starts off. The original OGG recording is supplied with an MP3 compatibility version. Vibration is disabled when reduced motion is requested.
+
+Engine sound: **Dušan Oblak / Work With Sounds / Technical Museum of Slovenia**, a 1984 Beetle 1600 recording under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). [Source on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:WWS_VolkswagenBeetle8211engine.ogg). Victor selected the recording; it is uncut, MP3-converted, looped, and adjusted for playback volume.
+
+## Verification
+
+```sh
+npm test
+npm run build
+```
+
+The geometry tests verify identities, finite positions, separation of every part, and camera coverage in three aspect ratios. Browser interaction records are written to `output/playwright/` when Playwright checks are run.
+
+## GitHub Pages publication
+
+GitHub Pages serves the production build from `gh-pages`; `main` contains source. Relative paths allow the model, audio, and lighting to load at `/fusquinha/`.
 
 ```sh
 npm test
@@ -38,37 +56,9 @@ python3 scripts/prepare-pages.py
 git push origin main gh-pages
 ```
 
-O script prepara somente a branch de publicação, preservando o checkout atual. O push de `gh-pages` atualiza o site. `release.json` identifica o commit dos fontes utilizado no build.
+The publication script prepares only the publication branch and preserves the current checkout. `release.json` identifies the source commit used for the build.
 
-## Controles
-
-- Arrastar: girar o carro; roda do mouse ou gesto de pinça: zoom.
-- **Ligar motor**: toca o áudio fornecido por Victor em repetição e aplica uma vibração sutil à carroceria. O botão de som silencia o motor e todos os efeitos sem desligar; **Desligar motor** interrompe áudio e movimento.
-- **Faróis**: acende as lentes, as lanternas traseiras e os fachos, com som de interruptor.
-- **Porta**: abre/fecha a porta do motorista com vidro, retrovisor e acabamento, acompanhada pelos sons de abertura e fechamento.
-- **Alerta**: pisca dianteiro/traseiro sincronizado ao relé. **Limpadores**: varredura sincronizada ao áudio e retorno ao repouso ao desligar.
-- Catálogo ou clique no carro: selecionar conjunto/peça.
-- Seletor de peças e **Isolar**: inspecionar elementos individuais.
-- Controle **Desmontar**: de 0% montado, passando por conjuntos afastados, até todas as peças organizadas em 100%.
-- `E`: montar/desmontar. `R`: reenquadrar. `/`: buscar. `Esc`: fechar painéis e sair do isolamento.
-- Barra lateral: zoom, câmera, rotação automática, malha, imagem PNG e tela cheia quando suportada.
-
-O motor começa desligado. O áudio original OGG acompanha uma versão MP3 de compatibilidade. A vibração é desativada quando o sistema pede movimento reduzido.
-
-Som do motor: **Dušan Oblak / Work With Sounds / Technical Museum of Slovenia**, gravação de um Fusca 1600 de 1984, sob [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). [Fonte no Wikimedia Commons](https://commons.wikimedia.org/wiki/File:WWS_VolkswagenBeetle8211engine.ogg). Seleção de Victor; sem cortes, com conversão MP3, repetição e volume de reprodução ajustado.
-
-A animação respeita movimento reduzido, pausa em abas ocultas e limita a renderização ativa a aproximadamente 30 quadros/s. O motor para de renderizar quando a cena fica parada. O enquadramento acompanha isolamento, desmontagem e mudança de tamanho da tela.
-
-## Verificação
-
-```sh
-npm test
-npm run build
-```
-
-Os testes geométricos verificam identidades, posições finitas, separação de todas as peças e cobertura da câmera em três proporções. A validação visual e de interação usa Playwright; os registros ficam em `output/playwright/`.
-
-## Pipeline do modelo
+## Model pipeline
 
 ```sh
 python3 scripts/download-source.py
@@ -76,16 +66,14 @@ blender --background --factory-startup --disable-autoexec --threads 2 --python s
 blender --background --factory-startup --disable-autoexec --threads 2 --python scripts/export-model.py
 ```
 
-O pipeline mantém o `.blend` de origem em `/private/tmp/fusca-source.blend`, separa suas ilhas e exporta `public/models/fusca.glb` com o manifesto correspondente. Scripts embutidos no asset ficam desativados. Nenhuma conta, segredo ou compra é necessária para o asset gratuito consultado.
+The pipeline keeps the source `.blend` in `/private/tmp/fusca-source.blend`, separates its islands, and exports `public/models/fusca.glb` with its manifest. Embedded asset scripts remain disabled. The project is an educational visual exploration: its artistic islands are not an OEM catalog or manufacturing documentation, and the Brazilian reinterpretation does not claim complete historical fidelity to any national year or model.
 
-O projeto é educativo e visual: as ilhas artísticas não equivalem a um catálogo OEM ou a um projeto de fabricação. A adaptação brasileira não implica fidelidade integral a um ano/modelo nacional.
+## Sound effects
 
-## Efeitos sonoros
-
-Os seis recortes de efeitos já estão disponíveis nesta entrega. Para refazê-los com FFmpeg a partir dos quatro MP3 fornecidos:
+The six prepared command-effect excerpts are included. To recreate them from the four supplied MP3 files:
 
 ```sh
-python3 scripts/prepare-sounds.py /caminho/para/fusquinha-sfx
+python3 scripts/prepare-sounds.py /path/to/fusquinha-sfx
 ```
 
-Origens, créditos e tempos dos recortes: [SOUND-SOURCES.md](docs/SOUND-SOURCES.md).
+See [sound sources, credits, and edit timings](docs/SOUND-SOURCES.md).

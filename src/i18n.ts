@@ -1,0 +1,31 @@
+import { groups, type GroupId, type Piece } from './catalog';
+
+export type Locale = 'en' | 'pt-BR';
+
+const englishGroups: Record<GroupId, { name: string; subtitle: string; description: string; working: string }> = {
+  body: { name: 'Bodywork', subtitle: 'A silhouette that spans generations', description: 'Rounded roof, pronounced fenders, and curved lids: the surfaces that make a Beetle recognizable before its badge comes into view.', working: 'The body joins the platform at mounting points. The front lid opens to the luggage compartment; the rear lid opens to the engine bay.' },
+  doors: { name: 'Doors and hinges', subtitle: 'There is always room for another story', description: 'Both side doors and their articulated details. Select a piece to study its shape and its relationship with the cabin.', working: 'Hinges support the doors and allow them to swing. Latches and strikers keep them closed, while seals help close the gaps.' },
+  glass: { name: 'Glass', subtitle: 'The world seen from inside the Beetle', description: 'Windshield, side windows, and rear window: simple forms that follow the bodywork curves.', working: 'The windshield and rear window sit in the bodywork. In the doors, windows and vent windows help ventilate the cabin.' },
+  interior: { name: 'Interior and dashboard', subtitle: 'Only what is needed, and plenty of memories', description: 'Seats, steering wheel, dashboard, and controls. Isolating the group makes the compact interior easier to inspect.', working: 'The steering wheel controls direction. Pedals and levers control acceleration, braking, clutch, and gears. The dashboard groups the driving instruments.' },
+  engine: { name: 'Boxer engine', subtitle: 'The heart lives in the back', description: 'The rear-mounted Beetle engine, with four opposed cylinders and air cooling. The asset includes a visual representation of its external components.', working: 'The pistons work in opposing pairs. A fan moves air through the engine and its fins help dissipate heat. The transmission sends motion to the rear wheels.' },
+  mechanical: { name: 'Suspension and exhaust', subtitle: 'Between the road and the journey', description: 'Mechanical elements beneath the bodywork: suspension, drivetrain, and exhaust, as represented by the geometry available in this model.', working: 'The suspension lets the wheels follow road irregularities. The exhaust carries engine gases and reduces noise through the muffler.' },
+  wheels: { name: 'Wheels and tires', subtitle: 'Chrome, rubber, and asphalt', description: 'Four tires, steel wheels, and their details. Chrome hubcaps were added in this reinterpretation to give the yellow Beetle its familiar character.', working: 'Tires make contact with the ground. Wheels attach to hubs and transfer acceleration, steering, and braking forces. Hubcaps cover the wheel centers.' },
+  chassis: { name: 'Platform', subtitle: 'The foundation of everything', description: 'The lower structure represented by the artist. It is the visual base around which the cabin and vehicle components are arranged.', working: 'In the classic Beetle, platform and bodywork are joined by fasteners. The structure carries occupant loads and connects to the mechanical assemblies.' },
+  trim: { name: 'Lights and trim', subtitle: 'The character lives in the details', description: 'Headlights, tail lights, bumpers, moldings, and smaller trim pieces. Open the piece picker to explore each modeled element.', working: 'Headlights illuminate the road and tail lights signal the vehicle’s presence. Moldings, brackets, and bumpers complete the exterior.' },
+};
+
+const englishPieces: Record<string, string> = {
+  'Capô dianteiro': 'Front hood', 'Reforço do capô': 'Hood reinforcement', 'Carroceria principal': 'Main bodywork', 'Para-lama traseiro direito': 'Right rear fender', 'Para-lama traseiro esquerdo': 'Left rear fender', 'Porta esquerda': 'Left door', 'Para-lama dianteiro esquerdo': 'Left front fender', 'Para-lama dianteiro direito': 'Right front fender', 'Dobradiça e fixação': 'Hinge and fastener', 'Painel e detalhe da carroceria': 'Bodywork panel and detail', 'Porta direita': 'Right door', 'Tampa do motor': 'Engine lid', 'Reforço da tampa traseira': 'Rear lid reinforcement', 'Para-choque e suporte · traseiro': 'Rear bumper and bracket', 'Para-choque e suporte · dianteiro': 'Front bumper and bracket', 'Plataforma e estrutura inferior': 'Platform and lower structure', 'Placa cenográfica dianteira': 'Front display plate', 'Placa cenográfica traseira': 'Rear display plate', 'Friso e acabamento externo': 'Exterior molding and trim', 'Elemento do motor boxer': 'Boxer engine component', 'Elemento da suspensão e transmissão': 'Suspension and drivetrain component', 'Escapamento': 'Exhaust', 'Vidro lateral direito': 'Right side window', 'Vidro lateral esquerdo': 'Left side window', 'Para-brisa': 'Windshield', 'Vidro traseiro': 'Rear window', 'Lente do farol': 'Headlight lens', 'Lente da lanterna': 'Tail light lens', 'Detalhe do painel e comandos': 'Dashboard and control detail', 'Banco e acabamento interno': 'Seat and interior trim', 'Pneu traseiro direito': 'Right rear tire', 'Pneu traseiro esquerdo': 'Left rear tire', 'Pneu dianteiro direito': 'Right front tire', 'Pneu dianteiro esquerdo': 'Left front tire', 'Roda traseira direita': 'Right rear wheel', 'Detalhe da roda · traseiro direito': 'Right rear wheel detail', 'Roda traseira esquerda': 'Left rear wheel', 'Detalhe da roda · traseiro esquerdo': 'Left rear wheel detail', 'Roda dianteira direita': 'Right front wheel', 'Detalhe da roda · dianteiro direito': 'Right front wheel detail', 'Roda dianteira esquerda': 'Left front wheel', 'Detalhe da roda · dianteiro esquerdo': 'Left front wheel detail', 'Calota cromada': 'Chrome hubcap',
+};
+
+export function localGroups(locale: Locale) {
+  return groups.map(group => locale === 'en' ? { ...group, ...englishGroups[group.id] } : group);
+}
+
+export function localPiece(piece: Piece, locale: Locale) {
+  if (locale === 'pt-BR') return piece.label;
+  const suffix = piece.label.match(/ (\d{2,3})$/)?.[1];
+  return `${englishPieces[piece.descriptionKey] ?? piece.label}${suffix ? ` ${suffix}` : ''}`;
+}
+
+export function translate(locale: Locale, en: string, pt: string) { return locale === 'en' ? en : pt; }

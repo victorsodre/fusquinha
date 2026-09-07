@@ -5,7 +5,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { assemblyOffset, boardCenter, createLayout, viewDirection, viewDistance } from './layout';
-import { groups, type GroupId, type Manifest, type Piece } from './catalog';
+import { type GroupId, type Manifest, type Piece } from './catalog';
+import { localGroups, localPiece, translate, type Locale } from './i18n';
 import { engineMotion } from './engine-motion';
 import { createContactShadow } from './contact-shadow';
 import { plateLocation } from './project';
@@ -16,6 +17,7 @@ import { createGarageFloor } from './garage-floor';
 export interface SceneHandle { reset: () => void; zoom: (factor: number) => void; capture: () => void; }
 interface Props {
   manifest: Manifest;
+  locale: Locale;
   selected: GroupId | null;
   focused: string;
   explosion: number;
@@ -40,7 +42,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
   const current = useRef(props);
   current.current = props;
   const actions = useRef<SceneHandle & { update: () => void } | null>(null);
-  const [status, setStatus] = useState('Preparando o amarelinho…');
+  const [status, setStatus] = useState(() => translate(props.locale, 'Preparing the yellow Beetle…', 'Preparando o amarelinho…'));
   const [error, setError] = useState('');
   useImperativeHandle(ref, () => ({
     reset: () => actions.current?.reset(),
@@ -48,7 +50,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     capture: () => actions.current?.capture(),
   }), []);
 
-  useEffect(() => { actions.current?.update(); }, [props.selected, props.focused, props.explosion, props.isolated, props.autoRotate, props.labels, props.wireframe, props.engineOn, props.vehicleSwitches]);
+  useEffect(() => { actions.current?.update(); }, [props.selected, props.focused, props.explosion, props.isolated, props.autoRotate, props.labels, props.wireframe, props.engineOn, props.vehicleSwitches, props.locale]);
 
   useEffect(() => {
     const container = host.current!;
@@ -60,7 +62,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let renderer: THREE.WebGLRenderer;
     try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'default' }); }
-    catch { setError('A visualização 3D precisa de WebGL. Tente abrir em outro navegador.'); return; }
+    catch { setError(translate(props.locale, 'The 3D view requires WebGL. Try another browser.', 'A visualização 3D precisa de WebGL. Tente abrir em outro navegador.')); return; }
 
     renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia('(pointer: coarse)').matches ? 1.25 : 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -69,7 +71,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.shadowMap.autoUpdate = false;
     renderer.setClearColor(0x000000, 0);
-    renderer.domElement.setAttribute('aria-label', 'Fusca em 3D. Arraste para girar e use a roda do mouse para aproximar.');
+    renderer.domElement.setAttribute('aria-label', translate(props.locale, 'Beetle in 3D. Drag to turn and use the mouse wheel to zoom.', 'Fusca em 3D. Arraste para girar e use a roda do mouse para aproximar.'));
     renderer.domElement.setAttribute('role', 'img');
     container.appendChild(renderer.domElement);
 
@@ -124,7 +126,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     const slots = new Map(layout.slots.map(s => [s.id, s]));
     const objectMap = new Map<string, VisualPiece>();
     const projection = new THREE.Vector3();
-    const labels = groups.map(group => {
+    const labels = localGroups(props.locale).map(group => {
       const button = document.createElement('button');
       button.className = 'scene-label'; button.textContent = group.name; button.hidden = true;
       button.addEventListener('click', () => current.current.onSelect(group.id, ''));
@@ -195,7 +197,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
       gltf.scene.updateMatrixWorld(true);
       for (const data of props.manifest.objects) {
         const node = gltf.scene.getObjectByName(data.id);
-        if (!node) { setError(`A geometria de ${data.label} está ausente.`); disposeObject(gltf.scene); return; }
+        if (!node) { setError(translate(current.current.locale, `Geometry for ${localPiece(data, current.current.locale)} is missing.`, `A geometria de ${data.label} está ausente.`)); disposeObject(gltf.scene); return; }
         model.attach(node);
         const materials: THREE.MeshStandardMaterial[] = [];
         node.traverse(child => {
@@ -230,9 +232,9 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
       renderer.domElement.dataset.ready = 'true';
       apply(); fit(true); current.current.onReady();
     }, event => {
-      if (!disposed && event.total) setStatus(`Preparando o amarelinho… ${Math.round(event.loaded / event.total * 100)}%`);
+      if (!disposed && event.total) setStatus(translate(current.current.locale, `Preparing the yellow Beetle… ${Math.round(event.loaded / event.total * 100)}%`, `Preparando o amarelinho… ${Math.round(event.loaded / event.total * 100)}%`));
     }, () => {
-      if (!disposed) setError('Não foi possível carregar o Fusca. Recarregue a página para tentar novamente.');
+      if (!disposed) setError(translate(current.current.locale, 'The Beetle could not load. Reload the page to try again.', 'Não foi possível carregar o Fusca. Recarregue a página para tentar novamente.'));
     });
 
     const resize = () => {
@@ -279,7 +281,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     const cancel = (e: PointerEvent) => { activePointers.delete(e.pointerId); tap = null; };
     const leave = () => { if (hoverId) { hoverId = ''; apply(); } };
     const wheel = () => { cameraMoving = false; invalidate(); };
-    const lost = (e: Event) => { e.preventDefault(); setError('A conexão com a placa gráfica foi interrompida. Recarregue a página.'); };
+    const lost = (e: Event) => { e.preventDefault(); setError(translate(current.current.locale, 'The graphics connection was interrupted. Reload the page.', 'A conexão com a placa gráfica foi interrompida. Recarregue a página.')); };
     const visibility = () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else invalidate(); };
     const canvas = renderer.domElement;
     canvas.addEventListener('pointerdown', down);
@@ -396,7 +398,7 @@ const VehicleScene = forwardRef<SceneHandle, Props>(function VehicleScene(props,
     <div className="scene-canvas" ref={host} />
     {Boolean(status || error) && <div className={`scene-status ${error ? 'is-error' : ''}`} role={error ? 'alert' : 'status'}>
       {!error && <span className="loading-wheel" />}<p>{error || status}</p>
-      {error && <button onClick={() => window.location.reload()}>Tentar novamente</button>}
+      {error && <button onClick={() => window.location.reload()}>{translate(props.locale, 'Try again', 'Tentar novamente')}</button>}
     </div>}
   </div>;
 });

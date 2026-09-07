@@ -1,15 +1,11 @@
-# Fusquinha
+# Fusquinha brief
 
-Explorador 3D local inspirado na experiência do Model X Studio de Ashe (https://github.com/ashemag/model-x-studio), com implementação própria. O repositório de referência não apresenta uma licença de código; não copiar seus arquivos.
+Fusquinha is a local 3D explorer inspired by Ashe’s Model X Studio, implemented independently. The reference repository did not present a code license; do not copy its files.
 
-Origem do projeto: Vitória, Espírito Santo.
+Project origin: Vitória, Espírito Santo, Brazil. The visual direction is a Brazilian garage: paper-cream surfaces, green workshop lettering, solar yellow paint, chrome accents, plaster walls, green geometric tiles, cobogós, and stone flooring. The vehicle remains the focus.
 
-Direção visual: garagem brasileira de época, com creme de papel, lettering verde de oficina, amarelo solar e cromados. Branding fusquinha preservado, selo Paixão Nacional, referências gráficas discretas à calçada e linguagem próxima da fala brasileira. O fundo é uma garagem aberta: parede de cal, faixa de azulejos verdes, cobogós e piso de pedra integrado à cena. O carro permanece protagonista.
+The experience opens directly into the model and provides a full-screen studio, assembly catalog, part details, disassembly controls, and provenance information. It must support smooth reversible assembly changes, isolated-part framing, reduced motion, and paused rendering in hidden tabs.
 
-Conteúdo: estúdio em tela cheia, catálogo de conjuntos, detalhes das peças, comandos de desmontagem e informações de origem. A primeira tela já deve permitir explorar o carro.
+Completion is observable when a recognizable yellow model supports orbit/zoom, selection and isolation, reversible disassembly of all loaded parts, credits, desktop and mobile use, a valid build, and browser inspection.
 
-Interação: transição suave entre montado e desmontado, enquadramento da peça isolada e realce de seleção. Respeitar movimento reduzido e pausar renderização quando a página estiver oculta.
-
-Conclusão observável: modelo reconhecível e amarelo, órbita/zoom, seleção e isolamento, desmontagem reversível de todas as peças carregadas, créditos, uso em desktop e celular, build válido e inspeção visual no navegador.
-
-Escopo editável: apenas este projeto. Victor autorizou versionar e enviar o projeto ao seu GitHub público e publicar a versão completa no GitHub Pages, incluindo expressamente o GLB após ser informado das condições da licença. Assets baixados passam por inspeção e conversão com execução de scripts embutidos desativada. Nenhum arquivo de engenharia é tratado como documentação de fabricação sem comprovação.
+Scope is limited to this project. Victor authorized versioning, public GitHub publication, and complete GitHub Pages deployment, including the GLB after being informed about its license conditions. Downloaded assets are inspected and converted with embedded scripts disabled. No engineering file is represented as manufacturing documentation without evidence.
