@@ -28,7 +28,8 @@ with tempfile.TemporaryDirectory(prefix='fusquinha-pages-') as directory:
     env = dict(os.environ, GIT_DIR=str(root / '.git'), GIT_WORK_TREE=str(dist),
                GIT_INDEX_FILE=str(Path(directory) / 'index'))
     git('read-tree', '--empty', env=env)
-    git('add', '--all', env=env, cwd=dist)
+    git('add', '--all', '--', '.', ':(glob,exclude)**/.DS_Store',
+        ':(glob,exclude)**/._*', env=env, cwd=dist)
     tree = git('write-tree', env=env)
     args = ['commit-tree', tree, '-m', f'deploy: Fusquinha {source[:7]}']
     if previous:
