@@ -45,7 +45,7 @@ npm run build
 
 The geometry tests verify identities, finite positions, separation of every part, and camera coverage in three aspect ratios. Browser interaction records are written to `output/playwright/` when Playwright checks are run.
 
-Pull requests and pushes also run [judg3d](https://github.com/victorsodre/judg3d) on `public/models/fusca.glb` via [`.github/workflows/judg3d-gate.yml`](.github/workflows/judg3d-gate.yml). The gate uses the bundled `web-commerce` profile (SCHEMA / glTF validation only) and pins the published CLI to `judg3d@0.1.0`. Bump that version input when `0.2.0` (or later) is published and you have checked the changelog. To add triangle, material, or texture budgets later, copy a profile into `.judg3d/` and point the workflow at that file; do not treat `agent-loop` sample numbers as defaults for this model.
+Pull requests and pushes also run [judg3d](https://github.com/victorsodre/judg3d) on `public/models/fusca.glb` via [`.github/workflows/judg3d-gate.yml`](.github/workflows/judg3d-gate.yml). The gate uses the bundled `web-commerce` profile (SCHEMA / glTF validation only) and pins the published CLI to `judg3d@0.1.0`. Bump that version input when `0.2.0` (or later) is published and you have checked the changelog. The composite Action is pinned to a commit SHA of `victorsodre/judg3d`. To add triangle, material, or texture budgets later, copy a profile into `.judg3d/` and point the workflow at that file; do not treat `agent-loop` sample numbers as defaults for this model.
 
 ## GitHub Pages publication
 
