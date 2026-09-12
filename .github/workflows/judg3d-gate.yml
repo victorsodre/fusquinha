@@ -4,8 +4,8 @@
 # `profile` at that file when you want pipeline-specific limits.
 #
 # npm package is pinned to judg3d@0.1.0. Bump this input when 0.2.0 (or later)
-# is published and you have checked the changelog. The composite action is on
-# main for the first trial; pin it to a commit SHA once this workflow is green.
+# is published and you have checked the changelog. The composite action is
+# pinned to the main SHA that first passed this repository.
 name: judg3d-gate
 
 on:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: victorsodre/judg3d/.github/actions/judg3d-gate@main
+      - uses: victorsodre/judg3d/.github/actions/judg3d-gate@c94c8751240f3f16e76791f45bc503a5500af1a2
         with:
           assets: public/models/fusca.glb
           profile: web-commerce
