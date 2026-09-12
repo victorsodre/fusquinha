@@ -1,0 +1,36 @@
+# Fail CI when public/models/fusca.glb fails judg3d SCHEMA.
+# Profile is the bundled web-commerce contract (SCHEMA only — no triangle,
+# material, or texture budgets). Copy a profile into .judg3d/ and point
+# `profile` at that file when you want pipeline-specific limits.
+#
+# npm package is pinned to judg3d@0.1.0. Bump this input when 0.2.0 (or later)
+# is published and you have checked the changelog. The composite action is on
+# main for the first trial; pin it to a commit SHA once this workflow is green.
+name: judg3d-gate
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: judg3d-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  judge-fusca:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: victorsodre/judg3d/.github/actions/judg3d-gate@main
+        with:
+          assets: public/models/fusca.glb
+          profile: web-commerce
+          version: "0.1.0"
+          artifact-name: judg3d-fusca
